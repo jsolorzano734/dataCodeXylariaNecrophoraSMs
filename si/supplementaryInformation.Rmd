@@ -12,9 +12,9 @@ knitr::opts_chunk$set(echo = TRUE)
 grfungi <- read.csv("growthallassaypda.txt")
 str(grfungi)
 ```
-\newpage
+
 # Growth differences among fungi (PDA)
-```{r}
+```{r include=FALSE}
 
 #boxplot
 colnames <- c("Aspergillus", "Ceratocystis", 
@@ -32,17 +32,17 @@ axis(1, at=c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15),
 text(c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15), 
      par("usr")[3] - 1.8, labels = colnames, srt = 30, pos = 1, xpd = TRUE,  adj = 0.965,)
 ```
-\newpage
+
 # calculate mean and sd of each group
 
 Get packages 
-```{r include=TRUE, message=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 #install.packages("tidyverse")
 library("tidyverse")
 library("ggplot2")
 ```
 Get sd (make a function)
-```{r}
+```{r include=FALSE}
 data_summary <- function(data, varname, groupnames){
   require(plyr)
   summary_func <- function(x, col){
@@ -58,9 +58,9 @@ df3 <- data_summary(grfungi, varname="mean",
                     groupnames=c("fungi", "day"))
 head(df3)
 ```
-\newpage
+
 Make a colorful graph
-```{r}
+```{r include=FALSE}
 ggplot(df3, aes(x=day, y=mean, group=fungi, color=fungi)) + 
   geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.1, 
                 position=position_dodge(0.05)) +
@@ -70,7 +70,7 @@ well...
 \newpage
 
 Lets do a subset of all of them
-```{r}
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 gr1 <-df3[which(df3$fungi %in% c("Xylaria", "Colletotricum")),]
 gr2 <-df3[which(df3$fungi %in% c("Xylaria", "Cercospora_s")),]
 gr3 <-df3[which(df3$fungi %in% c("Xylaria", "Rhizoctonia")),]
@@ -90,12 +90,12 @@ gr15 <-df3[which(df3$fungi %in% c("Xylaria", "Aspergillus")),]
 
 
 Make the graphs
-```{r include=TRUE, message=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 #install.packages("mdthemes") #add italics
 library("mdthemes")
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 #1_comparison
 p1 <- ggplot(gr1, aes(x=day, y=mean, group=fungi, shape=fungi, linetype=fungi)) + 
   geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.1, 
@@ -220,12 +220,12 @@ p15 <- ggplot(gr15, aes(x=day, y=mean, group=fungi, shape=fungi, linetype=fungi)
 \newpage
 
 Group them?
-```{r include=TRUE, message=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 #install.packages("ggpubr")
 library("ggpubr")
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 group1 <- ggarrange(p1, p2, p3, p4, 
           labels = c("A.", "B.", "C.", "D."),
           ncol = 2, nrow = 2)
